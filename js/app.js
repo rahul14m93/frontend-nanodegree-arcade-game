@@ -1,3 +1,6 @@
+var TILE_WIDTH = 101,
+    TILE_HEIGHT = 83;
+
 // Enemies our player must avoid
 var Enemy = function(x,y) {
     this.x = x;
@@ -66,8 +69,9 @@ Player.prototype.checkHasWon = function(){
 	if(this.y<0){
 		console.log("Won");
 		this.hasWon = true;
+		var self = this;
 		setTimeout(function(){
-			player.init();
+			self.init();
 			stars.forEach(function(star) {
 	        	star.init();
 	    	});
@@ -78,7 +82,7 @@ Player.prototype.checkHasWon = function(){
 
 // Compute score based on which stone layer the player has reached
 Player.prototype.computeScore = function(){
-	if(player.y>-10 && player.y<83 || player.y>=83 && player.y<166 || player.y>=166 && player.y<249){
+	if(this.y>-10 && this.y<TILE_HEIGHT || this.y>=TILE_HEIGHT && this.y<2*TILE_HEIGHT || this.y>=2*TILE_HEIGHT && this.y<3*TILE_HEIGHT){
 		this.score = this.score +100;
 	}
 };
@@ -92,7 +96,7 @@ Player.prototype.handleInput = function(allowedKeys){
 		// player arrow left
 		case 'left':
 		if (this.x > 0) {
-			this.x=this.x-100;
+			this.x=this.x-TILE_WIDTH;
 			stars.forEach(function(star) {
 				star.onCollect();
 			});
@@ -100,8 +104,8 @@ Player.prototype.handleInput = function(allowedKeys){
 		break;
 		// player arrow down
 		case 'down':
-		if (this.y <= 300) {
-			this.y=this.y+83;
+		if (this.y <= 3*TILE_HEIGHT) {
+			this.y=this.y+TILE_HEIGHT;
 			stars.forEach(function(star) {
 				star.onCollect();
 			});
@@ -109,8 +113,8 @@ Player.prototype.handleInput = function(allowedKeys){
 		break;
 		// player arrow right
 		case 'right':
-		if (this.x+100<405){
-			this.x=this.x+100;
+		if (this.x+TILE_WIDTH<4*TILE_WIDTH){
+			this.x=this.x+TILE_WIDTH;
 			stars.forEach(function(star) {
 				star.onCollect();
 			});
@@ -121,7 +125,7 @@ Player.prototype.handleInput = function(allowedKeys){
 		// Only when the player moves up can he win and also when he moves to different stone layers he collects more points
 		case 'up':
 		if (this.y > 0) {
-			this.y=this.y-83;
+			this.y=this.y-TILE_HEIGHT;
 			this.checkHasWon();
 			this.computeScore();
 			stars.forEach(function(star) {
@@ -149,9 +153,9 @@ var Stars = function(){
 
 // Randomly assigns location of 2 stars on the grass blocks
 Stars.prototype.init = function(){
-	this.x = 100 * Math.floor((Math.random() * 5) );
+	this.x = TILE_WIDTH * Math.floor((Math.random() * 5) );
 	var rand = Math.floor((Math.random() * 3) +1);
-	this.y = (83* rand)-(10); 
+	this.y = (TILE_HEIGHT* rand)-(10); 
 };
 
 Stars.prototype.update = function(dt){
