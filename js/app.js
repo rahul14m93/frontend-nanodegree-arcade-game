@@ -49,12 +49,6 @@ Enemy.prototype.render = function() {
 	}
 };
 
-Enemy.prototype.repeat = function () {
-  if (this.x > 500) {
-    this.x = -100;
-  }
-};
-
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -146,6 +140,7 @@ Player.prototype.handleInput = function(allowedKeys){
 	
 };
 
+// Draws Player on Screen and also the scoreboard and star counter
 Player.prototype.render = function(){
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 	ctx.font = "30px Arial";
@@ -153,11 +148,13 @@ Player.prototype.render = function(){
 	ctx.fillText("Stars  : " + this.stars,350,525);
 };
 
+// Star Constructor
 var Stars = function(){
 	this.sprite = "images/Star.png";
 	this.init();
 };
 
+// Randomly assigns location of 2 stars on the grass blocks
 Stars.prototype.init = function(){
 	this.x = 100 * Math.floor((Math.random() * 5) );
 	var rand = Math.floor((Math.random() * 3) +1);
@@ -168,6 +165,10 @@ Stars.prototype.update = function(dt){
 	
 };
 
+// This method describes what happens when the player collects a star. 3 keys things happen
+// 1 - Star Counter is incremented
+// 2 - The collected screen is thrown off the screen
+// 3 - The Scoreboard is incremented
 Stars.prototype.onCollect = function(){
 	if (player.y >= this.y - 60 && player.y <= this.y + 60) {
 	        if (player.x >= this.x - 60 && player.x <= this.x + 60) {
@@ -180,6 +181,7 @@ Stars.prototype.onCollect = function(){
     
 };
 
+// Draws stars on the canva
 Stars.prototype.render = function(){
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
