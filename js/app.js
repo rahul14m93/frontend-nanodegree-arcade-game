@@ -1,12 +1,5 @@
-
-
 // Enemies our player must avoid
 var Enemy = function(x,y) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     this.x = x;
     this.y = y;
     this.speed = Math.floor((Math.random()*300)+200);
@@ -15,12 +8,9 @@ var Enemy = function(x,y) {
 
 };
 
-// Update the enemy's position, required method for game
+// Update the enemy's position
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     this.checkCollisions();
     this.x += (this.speed * dt);
     if (this.x > 550) {
@@ -30,6 +20,7 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
+// Check for collison
 Enemy.prototype.checkCollisions = function() {
 	if (player.y >= this.y - 60 && player.y <= this.y + 60) {
         if (player.x >= this.x - 60 && player.x <= this.x + 60) {
@@ -50,16 +41,14 @@ Enemy.prototype.render = function() {
 };
 
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+// Player class
 
 var Player = function() {
 	this.init();
     this.sprite = 'images/char-boy.png';
 };
 
-
+// Initialize the player position and score
 Player.prototype.init = function(){
 	this.x = 200;
     this.y = 320;
@@ -72,6 +61,7 @@ Player.prototype.update = function(dt){
 
 };
 
+// Check if the player has reached the water body, if he has then we restart the game after 1 second
 Player.prototype.checkHasWon = function(){
 	if(this.y<0){
 		console.log("Won");
@@ -86,12 +76,14 @@ Player.prototype.checkHasWon = function(){
 	}
 };
 
+// Compute score based on which stone layer the player has reached
 Player.prototype.computeScore = function(){
 	if(player.y>-10 && player.y<83 || player.y>=83 && player.y<166 || player.y>=166 && player.y<249){
 		this.score = this.score +100;
 	}
 };
 
+// Method that handles all the input. 
 Player.prototype.handleInput = function(allowedKeys){
 	
 	console.log(allowedKeys);
@@ -126,6 +118,7 @@ Player.prototype.handleInput = function(allowedKeys){
 
 		break;
 		// player arrow up
+		// Only when the player moves up can he win and also when he moves to different stone layers he collects more points
 		case 'up':
 		if (this.y > 0) {
 			this.y=this.y-83;
@@ -181,7 +174,7 @@ Stars.prototype.onCollect = function(){
     
 };
 
-// Draws stars on the canva
+// Draws stars on the canvas
 Stars.prototype.render = function(){
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
