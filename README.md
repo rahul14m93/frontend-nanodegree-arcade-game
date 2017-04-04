@@ -1,11 +1,11 @@
 ## Frontend Nanodegree Arcade Game
 
 ### How to run the game
-1 Clone the repo
+1. Clone the repo
 ```
 https://github.com/rahul14m93/frontend-nanodegree-arcade-game
 ```
-2 To start the game
+2. To start the game
 Navigate to the folder and open the `index.html` file in your browser
 
 ### About the game
